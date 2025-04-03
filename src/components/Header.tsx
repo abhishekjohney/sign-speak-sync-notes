@@ -6,12 +6,16 @@ import {
   FileText, 
   Headphones,
   Menu,
-  X
+  X,
+  LogOut,
+  User
 } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -41,9 +45,27 @@ const Header = () => {
             <FileText className="w-5 h-5" />
             <span>Notes</span>
           </Link>
-          <Button className="bg-ocean-blue hover:bg-blue-600 text-white">
-            Sign In
-          </Button>
+          
+          {user ? (
+            <div className="flex items-center space-x-4">
+              <span className="text-gray-700">{user.email}</span>
+              <Button 
+                onClick={signOut}
+                variant="outline"
+                className="flex items-center space-x-2"
+              >
+                <LogOut className="w-4 h-4" />
+                <span>Sign Out</span>
+              </Button>
+            </div>
+          ) : (
+            <Link to="/auth">
+              <Button className="bg-ocean-blue hover:bg-blue-600 text-white flex items-center space-x-2">
+                <User className="w-4 h-4" />
+                <span>Sign In</span>
+              </Button>
+            </Link>
+          )}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -84,12 +106,34 @@ const Header = () => {
               <FileText className="w-5 h-5" />
               <span>Notes</span>
             </Link>
-            <Button 
-              className="bg-ocean-blue hover:bg-blue-600 text-white w-full"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Sign In
-            </Button>
+            
+            {user ? (
+              <div className="flex flex-col space-y-4">
+                <span className="text-gray-700 text-sm">{user.email}</span>
+                <Button 
+                  onClick={() => {
+                    signOut();
+                    setIsMenuOpen(false);
+                  }}
+                  variant="outline"
+                  className="w-full flex items-center justify-center space-x-2"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Sign Out</span>
+                </Button>
+              </div>
+            ) : (
+              <Link 
+                to="/auth"
+                onClick={() => setIsMenuOpen(false)}
+                className="w-full"
+              >
+                <Button className="bg-ocean-blue hover:bg-blue-600 text-white w-full flex items-center justify-center space-x-2">
+                  <User className="w-4 h-4" />
+                  <span>Sign In</span>
+                </Button>
+              </Link>
+            )}
           </nav>
         </div>
       )}
