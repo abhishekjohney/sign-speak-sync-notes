@@ -1,18 +1,18 @@
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import LandingPage from "@/components/LandingPage";
+import VideoCaptioner from "@/components/VideoCaptioner";
 
-const Index = () => {
+const VideoCaptioning = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-grow">
-        <LandingPage />
+        <VideoCaptioner />
       </main>
       <Footer />
     </div>
   );
 };
 
-export default Index;
+export default VideoCaptioning;
